@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Gym Management</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="employee.html">Employees</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="membership.html">Memberships</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Interested in joining? Sign up below!</h2>
+    <section id="member_signup">
+        <p>Fill out your information to sign up!</p>
+        <iframe src="application_info.html" width="100%" height="400px"></iframe>
+    </section>
+    <h2>Request membership cancelation</h2>
+    <section>
+        <form action="phpScripts/removeMember.php" method="post">
+            <p>Enter your Membership ID below and we will send you an email to confirm the cancelation process</p>
+            <label for="id">Membership ID:</label>
+            <input type="number" id="id" name="id"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </section>
+</body>
+</html>

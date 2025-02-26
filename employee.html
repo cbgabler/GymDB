@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Gym Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Insert Gym Data</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="employee.html">Employees</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="membership.html">Memberships</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Add New Entry</h2>
+    
+    <label for="dataType">Select Data Type:</label>
+    <select id="dataType" onchange="showForm()">
+        <option value="none">-- Select an option --</option>
+        <option value="members">Members</option>
+        <option value="employees">Employees</option>
+        <option value="equipment">Equipment</option>
+        <option value="classes">Classes</option>
+        <option value="memberships">Memberships</option>
+    </select>
+
+    <form id="dataForm">
+        <div id="membersForm" class="form-section hidden">
+            <h3>Add Member</h3>
+            <label>Name: <input type="text" id="memberName"></label>
+            <label>Email: <input type="email" id="memberEmail"></label>
+            <label>Phone: <input type="text" id="memberPhone"></label>
+            <label>Date Joined: <input type="date" id="memberDateJoined"></label>
+        </div>
+
+        <div id="employeesForm" class="form-section hidden">
+            <h3>Add Employee</h3>
+            <label>Name: <input type="text" id="employeeName"></label>
+            <label>Email: <input type="email" id="employeeEmail"></label>
+            <label>Phone: <input type="text" id="employeePhone"></label>
+            <label>Position: <input type="text" id="employeePosition"></label>
+        </div>
+
+        <div id="equipmentForm" class="form-section hidden">
+            <h3>Add Equipment</h3>
+            <label>Name: <input type="text" id="equipmentName"></label>
+            <label>Description: <textarea id="equipmentDescription"></textarea></label>
+            <label>Quantity: <input type="number" id="equipmentQuantity"></label>
+            <label>Price: <input type="number" step="0.01" id="equipmentPrice"></label>
+            <label>Purchase Date: <input type="date" id="equipmentPurchaseDate"></label>
+            <label>Seller: <input type="text" id="equipmentSeller"></label>
+        </div>
+
+        <div id="classesForm" class="form-section hidden">
+            <h3>Add Class</h3>
+            <label>Class Name: <input type="text" id="className"></label>
+            <label>Description: <textarea id="classDescription"></textarea></label>
+            <label>Duration: <input type="text" id="classDuration"></label>
+            <label>Capacity: <input type="number" id="classCapacity"></label>
+            <label>Category: <input type="text" id="classCategory"></label>
+        </div>
+
+        <div id="membershipsForm" class="form-section hidden">
+            <h3>Add Membership</h3>
+            <label>Name: <input type="text" id="membershipName"></label>
+            <label>Price: <input type="number" step="0.01" id="membershipPrice"></label>
+            <label>Duration: <input type="text" id="membershipDuration"></label>
+            <label>Guest Passes: <input type="number" id="membershipGuestPasses"></label>
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function showForm() {
+            // Hide all form sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+    
+            // Get the selected option
+            let selectedType = document.getElementById('dataType').value;
+    
+            console.log("Selected type:", selectedType); // Debugging line
+    
+            // Show the correct form if a valid option is selected
+            if (selectedType !== 'none') {
+                let formId = selectedType + "Form"; // Construct the form ID
+                let formElement = document.getElementById(formId);
+    
+                if (formElement) {
+                    formElement.classList.remove('hidden');
+                } else {
+                    console.log("Error: Form element with ID '" + formId + "' not found.");
+                }
+            }
+        }
+    </script>
+    
+</body>
+</html>

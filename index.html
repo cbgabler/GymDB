@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Gym Management</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="employee.html">Employees</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="membership.html">Memberships</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="members">
+        <h2>Our Members</h2>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Date Joined</th></tr>
+            <tr><td>1</td><td>John Doe</td><td>johndoe@example.com</td><td>555-1234</td><td>2023-01-15</td></tr>
+            <tr><td>2</td><td>Jane Smith</td><td>janesmith@example.com</td><td>555-5678</td><td>2023-03-22</td></tr>
+            <tr><td>3</td><td>Mike Johnson</td><td>mikejohnson@example.com</td><td>555-8765</td><td>2022-11-10</td></tr>
+            <tr><td>4</td><td>Emily Davis</td><td>emilydavis@example.com</td><td>555-4321</td><td>2023-07-05</td></tr>
+            <tr><td>5</td><td>Chris Wilson</td><td>chriswilson@example.com</td><td>555-9876</td><td>2022-09-30</td></tr>
+        </table>
+        <button onclick="updateData('members')">Update</button>
+    </section>
+    
+    <section id="employees">
+        <h2>Our Employees</h2>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Position</th></tr>
+            <tr><td>1</td><td>Sarah Lee</td><td>sarahlee@example.com</td><td>555-1122</td><td>Trainer</td></tr>
+            <tr><td>2</td><td>Tom Brown</td><td>tombrown@example.com</td><td>555-3344</td><td>Manager</td></tr>
+            <tr><td>3</td><td>Alice Green</td><td>alicegreen@example.com</td><td>555-5566</td><td>Receptionist</td></tr>
+        </table>
+        <button onclick="updateData('employees')">Update</button>
+    </section>
+    
+    <section id="equipment">
+        <h2>Gym Equipment</h2>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Description</th><th>Quantity</th><th>Price</th></tr>
+            <tr><td>1</td><td>Treadmill</td><td>Electric treadmill with adjustable speed</td><td>3</td><td>$1200.00</td></tr>
+            <tr><td>2</td><td>Dumbbells</td><td>Set of 5-50 lb dumbbells</td><td>10</td><td>$500.00</td></tr>
+            <tr><td>3</td><td>Rowing Machine</td><td>Advanced rowing machine with LCD display</td><td>2</td><td>$900.00</td></tr>
+        </table>
+        <button onclick="updateData('equipment')">Update</button>
+    </section>
+    
+    <section id="classes">
+        <h2>Available Classes</h2>
+        <table>
+            <tr><th>ID</th><th>Class Name</th><th>Description</th><th>Duration</th><th>Capacity</th><th>Instructor</th></tr>
+            <tr><td>1</td><td>Cardio Blast</td><td>High-intensity cardio workout</td><td>45 min</td><td>15</td><td>Sarah Lee</td></tr>
+            <tr><td>2</td><td>Strength Training</td><td>Weight-based training</td><td>60 min</td><td>10</td><td>Tom Brown</td></tr>
+            <tr><td>3</td><td>Yoga Basics</td><td>Relaxing yoga session</td><td>50 min</td><td>12</td><td>Alice Green</td></tr>
+        </table>
+        <button onclick="updateData('classes')">Update</button>
+    </section>
+    
+    <section id="memberships">
+        <h2>Membership Plans</h2>
+        <table>
+            <tr><th>ID</th><th>Type</th><th>Price</th><th>Duration</th><th>Guest Passes</th></tr>
+            <tr><td>1</td><td>Silver</td><td>$35.00</td><td>1 Month</td><td>1</td></tr>
+            <tr><td>2</td><td>Gold</td><td>$50.00</td><td>3 Months</td><td>3</td></tr>
+            <tr><td>3</td><td>Platinum</td><td>$80.00</td><td>6 Months</td><td>5</td></tr>
+        </table>
+        <button onclick="updateData('memberships')">Update</button>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 Gym Management. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function updateData(sectionId) {
+            alert('Update functionality for ' + sectionId + ' will be implemented here.');
+        }
+    </script>
+</body>
+</html>
