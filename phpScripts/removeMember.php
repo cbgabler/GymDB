@@ -1,8 +1,4 @@
 <?php
-$servername = "classmysql.engr.oregonstate.edu";
-$username = "cs340_gablerc";
-$password = "1498";
-$dbname = "cs340_gablerc";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
