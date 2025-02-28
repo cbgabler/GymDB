@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Management</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="classes.js" defer></script>
 </head>
 <body>
     <header>
@@ -55,14 +56,10 @@
         <button onclick="updateData('equipment')">Update</button>
     </section>
     
-    <section id="classes">
-        <h2>Available Classes</h2>
-        <table>
-            <tr><th>ID</th><th>Class Name</th><th>Description</th><th>Duration</th><th>Capacity</th><th>Instructor</th></tr>
-            <tr><td>1</td><td>Cardio Blast</td><td>High-intensity cardio workout</td><td>45 min</td><td>15</td><td>Sarah Lee</td></tr>
-            <tr><td>2</td><td>Strength Training</td><td>Weight-based training</td><td>60 min</td><td>10</td><td>Tom Brown</td></tr>
-            <tr><td>3</td><td>Yoga Basics</td><td>Relaxing yoga session</td><td>50 min</td><td>12</td><td>Alice Green</td></tr>
-        </table>
+    <section id="class_list">
+        <h3>Upcoming Classes:</h3>
+        <div id="classes"></div>
+
         <button onclick="updateData('classes')">Update</button>
     </section>
     
@@ -82,9 +79,7 @@
     </footer>
 
     <script>
-        function updateData(sectionId) {
-            alert('Update functionality for ' + sectionId + ' will be implemented here.');
-        }
+        
     </script>
 </body>
 </html>

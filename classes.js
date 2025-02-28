@@ -1,4 +1,3 @@
-// classes.js
 document.addEventListener('DOMContentLoaded', () => {
     fetchClasses();
 });

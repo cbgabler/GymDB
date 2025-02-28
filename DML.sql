@@ -94,8 +94,8 @@ WHERE DATE(c.class_date) = ?
 
 
 -- 16. Add a new class
-INSERT INTO classes (class_name, instructor_id, schedule, capacity) 
-VALUES (:class_name, :instructor_id, :schedule, :capacity);
+INSERT INTO classes (class_name, description, duration, capactiy, class_category, class_date, equipment_id, employee_id) 
+VALUES (:class_name, :description, :duration, :capactiy, :class_category, :class_date, :equipment_id, :employee_id); 
 
 -- 17. Update class details
 UPDATE classes 
@@ -106,7 +106,7 @@ SET class_name = :class_name,
 WHERE class_id = :class_id;
 
 -- 18. Delete a class
-DELETE FROM classes WHERE class_id = :class_id;
+DELETE FROM classes WHERE id = :id;
 
 -- 19. Retrieve all memberships
 SELECT membership_id, type, price, duration 
