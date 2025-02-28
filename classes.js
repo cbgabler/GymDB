@@ -27,8 +27,12 @@ function displayClasses(classes) {
             classList.innerHTML += `
                 <div class="class-item">
                     <h4>${classItem.class_name}</h4>
+                    <p>Description: ${classItem.description}</p>
+                    <p>Capacity: ${classItem.capacity}</p>
                     <p>Duration: ${classItem.duration} mins</p>
+                    <p>Category: ${classItem.class_category}</p>
                     <p>Date: ${classItem.class_date}</p>
+                    <p>Equipment ID: ${classItem.equipment_id}</p>
                     <p>Employee ID: ${classItem.employee_id}</p>
                 </div>
             `;

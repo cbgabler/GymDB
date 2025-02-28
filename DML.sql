@@ -68,7 +68,6 @@ WHERE equipment_id = :equipment_id;
 -- 14. Delete equipment
 DELETE FROM equipment WHERE equipment_id = :equipment_id;
 
-
 -- Retreive classes
 SELECT class_name, duration, class_date, employee_id FROM classes;
 -- 15. Retrieve all gym classes
@@ -100,9 +99,13 @@ VALUES (:class_name, :description, :duration, :capactiy, :class_category, :class
 -- 17. Update class details
 UPDATE classes 
 SET class_name = :class_name, 
-    instructor_id = :instructor_id, 
-    schedule = :schedule, 
-    capacity = :capacity 
+    description = :description,
+    duration = :duration,
+    capacity = :capacity,
+    class_category = class_category,
+    class_date = :class_date,
+    equipment_id = :equipment_id,
+    employee_id = :employee_id
 WHERE class_id = :class_id;
 
 -- 18. Delete a class
