@@ -1,1 +1,1 @@
-After using Reaact, Node.js, and MongoDB (and AWS) throughout my work as a Full Stack Developer, I wanted to try a new stack.
+The site will change by the final. I wanted to get in the js and php scripts needed for the current step. I will change them to their respective locations when I can figure out some of the connection issues.
