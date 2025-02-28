@@ -83,51 +83,61 @@
         </form>  
 
         <h3>Update Class</h3>
-        <form action="/~gablerc/phpScripts/createClass.php" method="post">
-            <div>
-                <label for="className">Class Name:</label>
-                <input type="text" id="className" name="className" required>
-            </div>
+    <form action="/~gablerc/phpScripts/updateClass.php" method="post">
+        <label for="classID">Select Class ID to Update:</label>
+        <select id="classID" name="classID">
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
         
-            <div>
-                <label for="classDescription">Description:</label>
-                <textarea id="classDescription" name="classDescription" required></textarea>
-            </div>
-        
-            <div>
-                <label for="classDuration">Duration:</label>
-                <input type="text" id="classDuration" name="classDuration" required>
-            </div>
-        
-            <div>
-                <label for="classCapacity">Capacity:</label>
-                <input type="number" id="classCapacity" name="classCapacity" required>
-            </div>
-        
-            <div>
-                <label for="classCategory">Category:</label>
-                <input type="text" id="classCategory" name="classCategory" required>
-            </div>
-        
-            <div>
-                <label for="classDate">Date:</label>
-                <input type="date" id="classDate" name="classDate" required>
-            </div>
-        
-            <div>
-                <label for="classEquipment">Equipment ID:</label>
-                <input type="number" id="classEquipment" name="classEquipment" required>
-            </div>
-        
-            <div>
-                <label for="classEmployee">Employee ID:</label>
-                <input type="number" id="classEmployee" name="classEmployee" required>
-            </div>
-        
-            <div>
-                <input type="submit" value="Submit">
-            </div>
-        </form>  
+        <div>
+            <label for="className">Class Name:</label>
+            <input type="text" id="className" name="className" required>
+        </div>
+
+        <div>
+            <label for="classDescription">Description:</label>
+            <textarea id="classDescription" name="classDescription" required></textarea>
+        </div>
+
+        <div>
+            <label for="classDuration">Duration:</label>
+            <input type="text" id="classDuration" name="classDuration" required>
+        </div>
+
+        <div>
+            <label for="classCapacity">Capacity:</label>
+            <input type="number" id="classCapacity" name="classCapacity" required>
+        </div>
+
+        <div>
+            <label for="classCategory">Category:</label>
+            <input type="text" id="classCategory" name="classCategory" required>
+        </div>
+
+        <div>
+            <label for="classDate">Date:</label>
+            <input type="date" id="classDate" name="classDate" required>
+        </div>
+
+        <div>
+            <label for="classEquipment">Equipment ID:</label>
+            <input type="number" id="classEquipment" name="classEquipment" required>
+        </div>
+
+        <div>
+            <label for="classEmployee">Employee ID:</label>
+            <input type="number" id="classEmployee" name="classEmployee" required>
+        </div>
+
+        <div>
+            <input type="submit" value="Update Class">
+        </div>
+    </form>
+
 
 </body>
 </html>

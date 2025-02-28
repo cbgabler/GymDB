@@ -7,7 +7,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$class_id = $_POST['classId'] ?? '';
+// Collect form data
+$class_id = $_POST['classID'] ?? '';
 $class_name = $_POST['className'] ?? '';
 $description = $_POST['classDescription'] ?? '';
 $duration = $_POST['classDuration'] ?? '';
@@ -17,6 +18,7 @@ $class_date = $_POST['classDate'] ?? '';
 $equipment_id = $_POST['classEquipment'] ?? '';
 $employee_id = $_POST['classEmployee'] ?? '';
 
+// Check if Class ID is provided
 if (empty($class_id)) {
     die("Class ID is required to update the record.");
 }
@@ -25,6 +27,7 @@ $fields = [];
 $params = [];
 $types = '';
 
+// Dynamically create fields and prepare statement based on the data provided
 if (!empty($class_name)) {
     $fields[] = 'class_name = ?';
     $params[] = $class_name;
@@ -66,13 +69,16 @@ if (!empty($employee_id)) {
     $types .= 'i';
 }
 
+// Check if any fields are provided to update
 if (empty($fields)) {
     die("No fields provided to update.");
 }
 
+// Add the class ID to the parameters to use in the WHERE clause
 $types .= 'i';
 $params[] = $class_id;
 
+// Prepare the SQL update query
 $sql = "UPDATE classes SET " . implode(', ', $fields) . " WHERE id = ?";
 
 $stmt = $conn->prepare($sql);
@@ -80,12 +86,14 @@ if ($stmt === false) {
     die("Failed to prepare statement: " . $conn->error);
 }
 
+// Bind the parameters to the prepared statement
 $stmt->bind_param($types, ...$params);
 
+// Execute the query and check for success
 if ($stmt->execute()) {
-    echo "Record updated successfully";
+    echo "Class record updated successfully.";
 } else {
-    echo "Error: " . $stmt->error;
+    echo "Error updating record: " . $stmt->error;
 }
 
 $stmt->close();
