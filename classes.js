@@ -17,26 +17,45 @@ async function fetchClasses() {
     }
 }
 
-
 function displayClasses(classes) {
     const classList = document.getElementById('classes');
     classList.innerHTML = '';
 
     if (Array.isArray(classes) && classes.length > 0) {
+        let tableHTML = `
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Description</th>
+                        <th>Capacity</th>
+                        <th>Duration (mins)</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Equipment ID</th>
+                        <th>Employee ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
         classes.forEach(classItem => {
-            classList.innerHTML += `
-                <div class="class-item">
-                    <h4>${classItem.class_name}</h4>
-                    <p>Description: ${classItem.description}</p>
-                    <p>Capacity: ${classItem.capacity}</p>
-                    <p>Duration: ${classItem.duration} mins</p>
-                    <p>Category: ${classItem.class_category}</p>
-                    <p>Date: ${classItem.class_date}</p>
-                    <p>Equipment ID: ${classItem.equipment_id}</p>
-                    <p>Employee ID: ${classItem.employee_id}</p>
-                </div>
+            tableHTML += `
+                <tr>
+                    <td>${classItem.class_name}</td>
+                    <td>${classItem.description}</td>
+                    <td>${classItem.capacity}</td>
+                    <td>${classItem.duration}</td>
+                    <td>${classItem.class_category}</td>
+                    <td>${classItem.class_date}</td>
+                    <td>${classItem.equipment_id}</td>
+                    <td>${classItem.employee_id}</td>
+                </tr>
             `;
         });
+
+        tableHTML += `</tbody></table>`;
+        classList.innerHTML = tableHTML;
     } else {
         classList.innerHTML = '<p>No classes available.</p>';
     }

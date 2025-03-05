@@ -7,7 +7,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Collect form data
 $class_id = $_POST['classID'] ?? '';
 $class_name = $_POST['className'] ?? '';
 $description = $_POST['classDescription'] ?? '';
@@ -18,7 +17,6 @@ $class_date = $_POST['classDate'] ?? '';
 $equipment_id = $_POST['classEquipment'] ?? '';
 $employee_id = $_POST['classEmployee'] ?? '';
 
-// Check if Class ID is provided
 if (empty($class_id)) {
     die("Class ID is required to update the record.");
 }
@@ -27,7 +25,6 @@ $fields = [];
 $params = [];
 $types = '';
 
-// Dynamically create fields and prepare statement based on the data provided
 if (!empty($class_name)) {
     $fields[] = 'class_name = ?';
     $params[] = $class_name;
