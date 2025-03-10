@@ -1,16 +1,13 @@
 <?php
-include('config.php');
-
-header('Content-Type: application/json');
+include('../config.php');
 
 $conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
 if ($conn->connect_error) {
-    echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
-    exit;
+    die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT id, class_name, description, duration, capacity, class_category, class_date, equipment_id, employee_id FROM classes";
+$sql = "SELECT class_name, description, duration, capacity, class_category, class_date, equipment_id, employee_id FROM classes";
 $result = $conn->query($sql);
 
 $classes = [];

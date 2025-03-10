@@ -52,7 +52,7 @@ function displayClasses(classes) {
                     <td contenteditable="false">${classItem.equipment_id}</td>
                     <td contenteditable="false">${classItem.employee_id}</td>
                     <td>
-                        <button onclick="editClass(this)">Edit</button>
+                        <button onclick="toggleEdit(this)">Edit</button>
                         <button onclick="deleteClass(${classItem.id})">Delete</button>
                     </td>
                 </tr>
@@ -66,8 +66,8 @@ function displayClasses(classes) {
     }
 }
 
-function editClass(button) {
-    const row = button.parentNode.parentNode;
+function toggleEdit(button) {
+    const row = button.closest('tr');
     const cells = row.querySelectorAll('td[contenteditable]');
     
     if (button.innerText === "Edit") {
@@ -101,7 +101,7 @@ async function updateClass(classData) {
         });
         
         const result = await response.text();
-        console.log(result);
+        console.log('Update response:', result);
         fetchClasses();
     } catch (error) {
         console.error('Error updating class:', error);
@@ -109,17 +109,22 @@ async function updateClass(classData) {
 }
 
 async function deleteClass(classId) {
+    if (isNaN(classId)) {
+        console.error('Invalid class ID');
+        return;
+    }
+
     if (!confirm('Are you sure you want to delete this class?')) return;
     
     try {
-        const response = await fetch('../~gablerc/phpScripts/removeClass.php', {
+        const response = await fetch('../~gablerc/phpScripts/phpClass/removeClass.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `id=${classId}`
         });
         
         const result = await response.text();
-        console.log(result);
+        console.log('Delete response:', result);
         fetchClasses();
     } catch (error) {
         console.error('Error deleting class:', error);
