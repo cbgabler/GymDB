@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Management</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="/~gablerc/jsScripts/feedback.js" defer></script>
 </head>
 <body>
     <header>
@@ -22,13 +23,26 @@
 
     <h2>Enter feeback below!</h2>
 
-    <form>
-        <label for="memid">Member ID:</label><br>
-        <input type="text" id="memid" name="memid"><br>
-        <label for="feedback_text">Feedback:</label><br>
-        <input type="text" id="feedback_text" name="feedback_text"><br><br>
+    <form action="/~gablerc/phpScripts/phpFeedback/createFeedback.php" method="post">
+        <label for="member_id">Member ID:</label><br>
+        <input type="text" id="member_id" name="member_id"><br>
+        <label for="feedback_content">Feedback:</label><br>
+        <input type="text" id="feedback_content" name="feedback_content"><br><br>
+        <label for="rating">Rating:</label><br>
+        <select id="rating" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br><br>
         <input type="submit" value="Submit"><br><br>
     </form>
     <p>We will get back to you as soon as possible!</p>
+
+    <h2>Read some of our ratings below!</h2>
+    <section id="feedback_list">
+        <div id='feedback'></div>
+    </section>
 </body>
 </html>

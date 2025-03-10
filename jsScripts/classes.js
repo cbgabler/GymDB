@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchClasses() {
     try {
-        const response = await fetch('../~gablerc/phpScripts/getClasses.php');
+        const response = await fetch('../~gablerc/phpScripts/phpClass/getClasses.php');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

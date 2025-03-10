@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-include('config.php');
+include('../config.php');
 
 $conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -9,15 +9,18 @@ if ($conn->connect_error) {
     exit;
 }
 
-$class_id = $_POST['classID'] ?? '';
-$class_name = $_POST['className'] ?? '';
-$description = $_POST['classDescription'] ?? '';
-$duration = $_POST['classDuration'] ?? '';
-$capacity = $_POST['classCapacity'] ?? '';
-$class_category = $_POST['classCategory'] ?? '';
-$class_date = $_POST['classDate'] ?? '';
-$equipment_id = $_POST['classEquipment'] ?? '';
-$employee_id = $_POST['classEmployee'] ?? '';
+// Reading JSON data from POST
+$inputData = json_decode(file_get_contents('php://input'), true);
+
+$class_id = $inputData['id'] ?? '';
+$class_name = $inputData['class_name'] ?? '';
+$description = $inputData['description'] ?? '';
+$duration = $inputData['duration'] ?? '';
+$capacity = $inputData['capacity'] ?? '';
+$class_category = $inputData['class_category'] ?? '';  // Fix typo: 'class_caetgory' -> 'class_category'
+$class_date = $inputData['class_date'] ?? '';
+$equipment_id = $inputData['equipment_id'] ?? '';
+$employee_id = $inputData['employee_id'] ?? '';
 
 if (empty($class_id)) {
     echo json_encode(["success" => false, "message" => "Class ID is required."]);
@@ -56,5 +59,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
-
 ?>
