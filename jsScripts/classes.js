@@ -93,8 +93,9 @@ function toggleEdit(button) {
 }
 
 async function updateClass(classData) {
+    console.log(classData);
     try {
-        const response = await fetch('../~gablerc/phpScripts/updateClass.php', {
+        const response = await fetch('../~gablerc/phpScripts/phpClass/updateClass.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(classData)
