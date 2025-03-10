@@ -12,49 +12,47 @@ if ($conn->connect_error) {
 // Reading JSON data from POST
 $inputData = json_decode(file_get_contents('php://input'), true);
 
-$class_id = $inputData['id'] ?? '';
-$class_name = $inputData['class_name'] ?? '';
-$description = $inputData['description'] ?? '';
-$duration = $inputData['duration'] ?? '';
-$capacity = $inputData['capacity'] ?? '';
-$class_category = $inputData['class_category'] ?? '';  // Fix typo: 'class_caetgory' -> 'class_category'
-$class_date = $inputData['class_date'] ?? '';
-$equipment_id = $inputData['equipment_id'] ?? '';
-$employee_id = $inputData['employee_id'] ?? '';
+$feedback_id = $inputData['id'] ?? '';  // Assuming `id` is provided to identify the record
+$member_id = $inputData['member_id'] ?? '';
+$feedback_content = $inputData['feedback_content'] ?? '';
+$date = date('Y-m-d');  // Auto-update the date
+$rating = $inputData['rating'] ?? '';
 
-if (empty($class_id)) {
-    echo json_encode(["success" => false, "message" => "Class ID is required."]);
+if (empty($feedback_id)) {
+    echo json_encode(["success" => false, "message" => "Feedback ID is required for update."]);
     exit;
 }
 
+// Prepare update fields
 $fields = [];
 $params = [];
 $types = '';
 
-if (!empty($class_name)) { $fields[] = 'class_name = ?'; $params[] = $class_name; $types .= 's'; }
-if (!empty($description)) { $fields[] = 'description = ?'; $params[] = $description; $types .= 's'; }
-if (!empty($duration)) { $fields[] = 'duration = ?'; $params[] = $duration; $types .= 'i'; }
-if (!empty($capacity)) { $fields[] = 'capacity = ?'; $params[] = $capacity; $types .= 'i'; }
-if (!empty($class_category)) { $fields[] = 'class_category = ?'; $params[] = $class_category; $types .= 's'; }
-if (!empty($class_date)) { $fields[] = 'class_date = ?'; $params[] = $class_date; $types .= 's'; }
-if (!empty($equipment_id)) { $fields[] = 'equipment_id = ?'; $params[] = $equipment_id; $types .= 'i'; }
-if (!empty($employee_id)) { $fields[] = 'employee_id = ?'; $params[] = $employee_id; $types .= 'i'; }
+if (!empty($member_id)) { $fields[] = 'member_id = ?'; $params[] = $member_id; $types .= 'i'; }
+if (!empty($feedback_content)) { $fields[] = 'feedback_content = ?'; $params[] = $feedback_content; $types .= 's'; }
+if (!empty($rating)) { $fields[] = 'rating = ?'; $params[] = $rating; $types .= 'i'; }
 
+// Always update the date
+$fields[] = 'feedback_date = ?';
+$params[] = $date;
+$types .= 's';
+
+// Ensure there are fields to update
 if (empty($fields)) {
-    echo json_encode(["success" => false, "message" => "No fields provided to update."]);
+    echo json_encode(["success" => false, "message" => "No fields provided for update."]);
     exit;
 }
 
 $types .= 'i';
-$params[] = $class_id;
-$sql = "UPDATE classes SET " . implode(', ', $fields) . " WHERE id = ?";
+$params[] = $feedback_id;
+$sql = "UPDATE feedback SET " . implode(', ', $fields) . " WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
-    echo json_encode(["success" => true, "message" => "Class updated successfully."]);
+    echo json_encode(["success" => true, "message" => "Feedback updated successfully."]);
 } else {
-    echo json_encode(["success" => false, "message" => "Error updating class: " . $stmt->error]);
+    echo json_encode(["success" => false, "message" => "Error updating feedback: " . $stmt->error]);
 }
 
 $stmt->close();
