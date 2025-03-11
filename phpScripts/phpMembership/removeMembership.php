@@ -15,18 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $id = $_POST["id"] ?? null;
 
 if (!$id) {
-    die("Error: No feedback ID provided.");
+    die("Error: No membership ID provided.");
 }
 
-// Prepare the SQL statement to prevent SQL injection
-$stmt = $conn->prepare("DELETE FROM feedback WHERE id = ?");
+$stmt = $conn->prepare("DELETE FROM memberships WHERE id = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
-        echo "Feedback deleted successfully.";
+        echo "Membership deleted successfully.";
     } else {
-        echo "No feedback found with that ID.";
+        echo "No membership found with that ID.";
     }
 } else {
     echo "Failed: " . $stmt->error;
