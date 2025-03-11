@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$sql = "SELECT class_name, description, duration, capacity, class_category, class_date, equipment_id, employee_id FROM classes";
+$sql = "SELECT id, name, email, phone, date_joined, FROM members";
 $result = $conn->query($sql);
 
 $classes = [];

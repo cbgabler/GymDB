@@ -12,47 +12,45 @@ if ($conn->connect_error) {
 // Reading JSON data from POST
 $inputData = json_decode(file_get_contents('php://input'), true);
 
-$feedback_id = $inputData['id'] ?? '';  // Assuming `id` is provided to identify the record
-$member_id = $inputData['member_id'] ?? '';
-$feedback_content = $inputData['feedback_content'] ?? '';
-$date = date('Y-m-d');  // Auto-update the date
-$rating = $inputData['rating'] ?? '';
+$id = $inputData['id'] ?? '';  // Assuming `id` is provided to identify the record
+$name = $inputData['name'] ?? '';
+$price = $inputData['price'] ?? '';
+$duration = $inputData['duration'] ?? '';
+$guest_passes = $inputData['guest_passes'] ?? '';
+$signup_fee = $inputData['signup_fee'] ?? '';
 
-if (empty($feedback_id)) {
-    echo json_encode(["success" => false, "message" => "Feedback ID is required for update."]);
+if (empty($id)) {
+    echo json_encode(["success" => false, "message" => "ID is required for update."]);
     exit;
 }
 
-// Prepare update fields
 $fields = [];
 $params = [];
 $types = '';
 
-if (!empty($member_id)) { $fields[] = 'member_id = ?'; $params[] = $member_id; $types .= 'i'; }
-if (!empty($feedback_content)) { $fields[] = 'feedback_content = ?'; $params[] = $feedback_content; $types .= 's'; }
-if (!empty($rating)) { $fields[] = 'rating = ?'; $params[] = $rating; $types .= 'i'; }
+if (!empty($name)) { $fields[] = 'name = ?'; $params[] = $name; $types .= 's'; }
+if (!empty($price)) { $fields[] = 'price = ?'; $params[] = $price; $types .= 'd'; }
+if (!empty($duration)) { $fields[] = 'duration = ?'; $params[] = $duration; $types .= 's'; }
+if (!empty($guest_passes)) { $fields[] = 'guest_passes = ?'; $params[] = $guest_passes; $types .= 'i'; }
+if (!empty($signup_fee)) { $fields[] = 'signup_fee = ?'; $params[] = $signup_fee; $types .= 'd'; }
 
-// Always update the date
-$fields[] = 'feedback_date = ?';
-$params[] = $date;
-$types .= 's';
-
-// Ensure there are fields to update
 if (empty($fields)) {
     echo json_encode(["success" => false, "message" => "No fields provided for update."]);
     exit;
 }
 
+// Append ID as the last parameter
 $types .= 'i';
-$params[] = $feedback_id;
-$sql = "UPDATE feedback SET " . implode(', ', $fields) . " WHERE id = ?";
+$params[] = $id;
+$sql = "UPDATE memberships SET " . implode(', ', $fields) . " WHERE id = ?"; 
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
-    echo json_encode(["success" => true, "message" => "Feedback updated successfully."]);
+    echo json_encode(["success" => true, "message" => "Membership updated successfully."]);
 } else {
-    echo json_encode(["success" => false, "message" => "Error updating feedback: " . $stmt->error]);
+    echo json_encode(["success" => false, "message" => "Error updating membership: " . $stmt->error]);
 }
 
 $stmt->close();

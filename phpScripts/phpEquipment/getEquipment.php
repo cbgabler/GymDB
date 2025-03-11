@@ -7,15 +7,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT class_name, description, duration, capacity, class_category, class_date, equipment_id, employee_id FROM classes";
+$sql = "SELECT id, name, description, quantity, price, purchase_date, seller, notes FROM equipment";
 $result = $conn->query($sql);
 
-$classes = [];
+$equipment = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $classes[] = $row;
+        $equipment[] = $row;
     }
-    echo json_encode($classes);
+    echo json_encode($equipment);
 } else {
     echo json_encode([]);
 }

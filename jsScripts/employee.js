@@ -27,10 +27,9 @@ function displayEmployee(employee) {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Price</th>
-                        <th>Duration</th>
-                        <th>Guest Passes</th>
-                        <th>Sign Up</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Position</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,10 +39,9 @@ function displayEmployee(employee) {
             tableHTML += `
                 <tr data-id="${employeeItem.id}">
                     <td contenteditable="false">${employeeItem.name}</td>
-                    <td contenteditable="false">${employeeItem.price}</td>
-                    <td contenteditable="false">${employeeItem.duration}</td>
-                    <td contenteditable="false">${employeeItem.guest_passes}</td>
-                    <td contenteditable="false">${employeeItem.signup_fee}</td>
+                    <td contenteditable="false">${employeeItem.email}</td>
+                    <td contenteditable="false">${employeeItem.phone}</td>
+                    <td contenteditable="false">${employeeItem.position}</td>
                     <td>
                         <button onclick="toggleEdit(this)">Edit</button>
                         <button onclick="deleteemployee(${employeeItem.id})">Delete</button>
@@ -69,10 +67,10 @@ function toggleEdit(button) {
     } else {
         const updatedData = {
             id: row.getAttribute('data-id'),
-            member_id: cells[0].innerText,
-            employee_content: cells[1].innerText,
-            employee_date: cells[2].innerText,
-            rating: cells[3].innerText,
+            name: cells[0].innerText,
+            email: cells[1].innerText,
+            phone: cells[2].innerText,
+            position: cells[3].innerText,
         };
         
         updateemployee(updatedData);

@@ -1,59 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetchFeedback();
+    fetchEquipment();
 });
 
-async function fetchFeedback() {
+async function fetchEquipment() {
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/getFeedback.php');
+        const response = await fetch('../~gablerc/phpScripts/phpEquipment/getEquipment.php');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
         console.log('Received data:', data);
-        displayFeedback(data);
+        displayEquipment(data);
     } catch (error) {
-        console.error('Error fetching feedback:', error);
-        document.getElementById('feedback').innerHTML = `<p>Error: ${error.message}</p>`;
+        console.error('Error fetching equipment:', error);
+        document.getElementById('equipment').innerHTML = `<p>Error: ${error.message}</p>`;
     }
 }
 
-function displayFeedback(feedback) {
-    const feedbackList = document.getElementById('feedback');
-    feedbackList.innerHTML = '';
+function displayEquipment(equipment) {
+    const equipmentList = document.getElementById('equipment');
+    equipmentList.innerHTML = '';
 
-    if (Array.isArray(feedback) && feedback.length > 0) {
+    if (Array.isArray(equipment) && equipment.length > 0) {
         let tableHTML = `
             <table border="1">
                 <thead>
                     <tr>
-                        <th>Member ID</th>
-                        <th>Feedback</th>
-                        <th>Date</th>
-                        <th>Rating</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Purchase Date</th>
+                        <th>Seller</th>
+                        <th>Notes</th>
                     </tr>
                 </thead>
                 <tbody>
         `;
 
-        feedback.forEach(feedbackItem => {
+        equipment.forEach(equipmentItem => {
             tableHTML += `
-                <tr data-id="${feedbackItem.id}">
-                    <td contenteditable="false">${feedbackItem.member_id}</td>
-                    <td contenteditable="false">${feedbackItem.feedback_content}</td>
-                    <td contenteditable="false">${feedbackItem.feedback_date}</td>
-                    <td contenteditable="false">${feedbackItem.rating}</td>
+                <tr data-id="${equipmentItem.id}">
+                    <td contenteditable="false">${equipmentItem.name}</td>
+                    <td contenteditable="false">${equipmentItem.description}</td>
+                    <td contenteditable="false">${equipmentItem.quantity}</td>
+                    <td contenteditable="false">${equipmentItem.price}</td>
+                    <td contenteditable="false">${equipmentItem.purchase_date}</td>
+                    <td contenteditable="false">${equipmentItem.seller}</td>
+                    <td contenteditable="false">${equipmentItem.notes}</td>
                     <td>
                         <button onclick="toggleEdit(this)">Edit</button>
-                        <button onclick="deletefeedback(${feedbackItem.id})">Delete</button>
+                        <button onclick="deleteequipment(${equipmentItem.id})">Delete</button>
                     </td>
                 </tr>
             `;
         });
 
         tableHTML += `</tbody></table>`;
-        feedbackList.innerHTML = tableHTML;
+        equipmentList.innerHTML = tableHTML;
     } else {
-        feedbackList.innerHTML = '<p>No feedback available.</p>';
+        equipmentList.innerHTML = '<p>No equipment available.</p>';
     }
 }
 
@@ -67,54 +73,57 @@ function toggleEdit(button) {
     } else {
         const updatedData = {
             id: row.getAttribute('data-id'),
-            member_id: cells[0].innerText,
-            feedback_content: cells[1].innerText,
-            feedback_date: cells[2].innerText,
-            rating: cells[3].innerText,
+            name: cells[0].innerText,
+            description: cells[1].innerText,
+            quantity: cells[2].innerText,
+            price: cells[3].innerText,
+            purchase_date: cells[4].innerText,
+            seller: cells[5].innerText,
+            notes: cells[6].innerText,
         };
         
-        updatefeedback(updatedData);
+        updateequipment(updatedData);
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
     }
 }
 
-async function updatefeedback(feedbackData) {
-    console.log(feedbackData);
+async function updateequipment(equipmentData) {
+    console.log(equipmentData);
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/updateFeedback.php', {
+        const response = await fetch('../~gablerc/phpScripts/phpEquipment/updateEquipment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(feedbackData)
+            body: JSON.stringify(equipmentData)
         });
         
         const result = await response.text();
         console.log('Update response:', result);
-        fetchFeedback();
+        fetchEquipment();
     } catch (error) {
-        console.error('Error updating feedback:', error);
+        console.error('Error updating equipment:', error);
     }
 }
 
-async function deletefeedback(feedbackId) {
-    if (isNaN(feedbackId)) {
-        console.error('Invalid feedback ID');
+async function deleteequipment(equipmentId) {
+    if (isNaN(equipmentId)) {
+        console.error('Invalid equipment ID');
         return;
     }
 
-    if (!confirm('Are you sure you want to delete this feedback?')) return;
+    if (!confirm('Are you sure you want to delete this equipment?')) return;
     
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/removeFeedback.php', {
+        const response = await fetch('../~gablerc/phpScripts/phpEquipment/removeEquipment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `id=${feedbackId}`
+            body: `id=${equipmentId}`
         });
         
         const result = await response.text();
         console.log('Delete response:', result);
-        fetchFeedback();
+        fetchEquipment();
     } catch (error) {
-        console.error('Error deleting feedback:', error);
+        console.error('Error deleting equipment:', error);
     }
 }
