@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('../config.php');
 
 header('Content-Type: application/json');
 
@@ -10,15 +10,15 @@ if ($conn->connect_error) {
     exit;
 }
 
-$sql = "SELECT id, name, email, phone, date_joined, FROM members";
+$sql = "SELECT id, name, email, phone, date_joined FROM members";
 $result = $conn->query($sql);
 
-$classes = [];
+$member = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $classes[] = $row;
+        $member[] = $row;
     }
-    echo json_encode($classes);
+    echo json_encode($member);
 } else {
     echo json_encode([]);
 }

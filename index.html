@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Management</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="/~gablerc/jsScripts/classes.js" defer></script>
+    <script src="/~gablerc/jsScripts/member.js" defer></script>
 </head>
 <body>
     <header>
@@ -21,18 +21,12 @@
             </ul>
         </nav>
     </header>
+
+    <h2>Not sure what we want to do with the home page yet. All CRUD operations are under their respective tabs</h2>
     
-    <section id="members">
+    <section>
         <h2>Our Members</h2>
-        <table>
-            <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Date Joined</th></tr>
-            <tr><td>1</td><td>John Doe</td><td>johndoe@example.com</td><td>555-1234</td><td>2023-01-15</td></tr>
-            <tr><td>2</td><td>Jane Smith</td><td>janesmith@example.com</td><td>555-5678</td><td>2023-03-22</td></tr>
-            <tr><td>3</td><td>Mike Johnson</td><td>mikejohnson@example.com</td><td>555-8765</td><td>2022-11-10</td></tr>
-            <tr><td>4</td><td>Emily Davis</td><td>emilydavis@example.com</td><td>555-4321</td><td>2023-07-05</td></tr>
-            <tr><td>5</td><td>Chris Wilson</td><td>chriswilson@example.com</td><td>555-9876</td><td>2022-09-30</td></tr>
-        </table>
-        <button onclick="updateData('members')">Update</button>
+        <div id="member"></div>
     </section>
     
     <section id="employees">
@@ -78,9 +72,5 @@
     <footer>
         <p>&copy; 2025 Gym Management. All rights reserved.</p>
     </footer>
-
-    <script>
-        
-    </script>
 </body>
 </html>

@@ -1,59 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetchFeedback();
+    fetchMember();
 });
 
-async function fetchFeedback() {
+async function fetchMember() {
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/getFeedback.php');
+        const response = await fetch('../~gablerc/phpScripts/phpMember/getMember.php');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
         console.log('Received data:', data);
-        displayFeedback(data);
+        displayMember(data);
     } catch (error) {
-        console.error('Error fetching feedback:', error);
-        document.getElementById('feedback').innerHTML = `<p>Error: ${error.message}</p>`;
+        console.error('Error fetching member:', error);
+        document.getElementById('member').innerHTML = `<p>Error: ${error.message}</p>`;
     }
 }
 
-function displayFeedback(feedback) {
-    const feedbackList = document.getElementById('feedback');
-    feedbackList.innerHTML = '';
+function displayMember(member) {
+    const memberList = document.getElementById('member');
+    memberList.innerHTML = '';
 
-    if (Array.isArray(feedback) && feedback.length > 0) {
+    if (Array.isArray(member) && member.length > 0) {
         let tableHTML = `
             <table border="1">
                 <thead>
                     <tr>
-                        <th>Member ID</th>
-                        <th>Feedback</th>
-                        <th>Date</th>
-                        <th>Rating</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date Joined</th>
                     </tr>
                 </thead>
                 <tbody>
         `;
 
-        feedback.forEach(feedbackItem => {
+        member.forEach(memberItem => {
             tableHTML += `
-                <tr data-id="${feedbackItem.id}">
-                    <td contenteditable="false">${feedbackItem.member_id}</td>
-                    <td contenteditable="false">${feedbackItem.feedback_content}</td>
-                    <td contenteditable="false">${feedbackItem.feedback_date}</td>
-                    <td contenteditable="false">${feedbackItem.rating}</td>
+                <tr data-id="${memberItem.id}">
+                    <td contenteditable="false">${memberItem.name}</td>
+                    <td contenteditable="false">${memberItem.email}</td>
+                    <td contenteditable="false">${memberItem.phone}</td>
+                    <td contenteditable="false">${memberItem.date_joined}</td>
                     <td>
                         <button onclick="toggleEdit(this)">Edit</button>
-                        <button onclick="deletefeedback(${feedbackItem.id})">Delete</button>
+                        <button onclick="deletemember(${memberItem.id})">Delete</button>
                     </td>
                 </tr>
             `;
         });
 
         tableHTML += `</tbody></table>`;
-        feedbackList.innerHTML = tableHTML;
+        memberList.innerHTML = tableHTML;
     } else {
-        feedbackList.innerHTML = '<p>No feedback available.</p>';
+        memberList.innerHTML = '<p>No member available.</p>';
     }
 }
 
@@ -67,54 +67,54 @@ function toggleEdit(button) {
     } else {
         const updatedData = {
             id: row.getAttribute('data-id'),
-            member_id: cells[0].innerText,
-            feedback_content: cells[1].innerText,
-            feedback_date: cells[2].innerText,
-            rating: cells[3].innerText,
+            name: cells[0].innerText,
+            email: cells[1].innerText,
+            phone: cells[2].innerText,
+            date_joined: cells[3].innerText,
         };
         
-        updatefeedback(updatedData);
+        updatemember(updatedData);
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
     }
 }
 
-async function updatefeedback(feedbackData) {
-    console.log(feedbackData);
+async function updatemember(memberData) {
+    console.log(memberData);
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/updateFeedback.php', {
+        const response = await fetch('../~gablerc/phpScripts/phpMember/updateMember.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(feedbackData)
+            body: JSON.stringify(memberData)
         });
         
         const result = await response.text();
         console.log('Update response:', result);
-        fetchFeedback();
+        fetchMember();
     } catch (error) {
-        console.error('Error updating feedback:', error);
+        console.error('Error updating member:', error);
     }
 }
 
-async function deletefeedback(feedbackId) {
-    if (isNaN(feedbackId)) {
-        console.error('Invalid feedback ID');
+async function deletemember(memberId) {
+    if (isNaN(memberId)) {
+        console.error('Invalid member ID');
         return;
     }
 
-    if (!confirm('Are you sure you want to delete this feedback?')) return;
+    if (!confirm('Are you sure you want to delete this member?')) return;
     
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/removeFeedback.php', {
+        const response = await fetch('../~gablerc/phpScripts/phpMember/removeMember.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `id=${feedbackId}`
+            body: `id=${memberId}`
         });
         
         const result = await response.text();
         console.log('Delete response:', result);
-        fetchFeedback();
+        fetchMember();
     } catch (error) {
-        console.error('Error deleting feedback:', error);
+        console.error('Error deleting member:', error);
     }
 }
