@@ -118,3 +118,53 @@ async function deletefeedback(feedbackId) {
         console.error('Error deleting feedback:', error);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const memberSelect = document.getElementById("member_id");
+
+    fetch('/~gablerc/phpScripts/phpMember/getMembersById.php')
+        .then(response => response.json())
+        .then(members => {
+            memberSelect.innerHTML = '';
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select a member';
+            memberSelect.appendChild(defaultOption);
+
+            members.forEach(member => {
+                const option = document.createElement('option');
+                option.value = member.id;
+                option.text = `ID: ${member.id} - ${member.name}`;
+                memberSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching members:', error);
+        });
+
+    const feedbackForm = document.getElementById('feedbackForm');
+    feedbackForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(feedbackForm);
+
+        fetch('/~gablerc/phpScripts/phpFeedback/createFeedback.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Feedback submitted successfully!');
+                window.location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting feedback:', error);
+            alert('Error submitting feedback.');
+        });
+    });
+});
