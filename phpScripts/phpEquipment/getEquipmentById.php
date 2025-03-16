@@ -8,7 +8,7 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed"]));
 }
 
-$sql = "SELECT id, name FROM employees";
+$sql = "SELECT id, name FROM equipment";
 $result = $conn->query($sql);
 
 $members = [];

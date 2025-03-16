@@ -98,7 +98,7 @@ VALUES (:class_name, :description, :duration, :capactiy, :class_category, :class
 
 -- 17. Update class details
 UPDATE classes 
-SET class_name = :class_name, 
+SET name = :class_name, 
     description = :description,
     duration = :duration,
     capacity = :capacity,

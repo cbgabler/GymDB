@@ -9,10 +9,9 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Reading JSON data from POST
 $inputData = json_decode(file_get_contents('php://input'), true);
 
-$id = $inputData['id'] ?? '';  // Assuming `id` is provided to identify the record
+$id = $inputData['id'] ?? '';
 $name = $inputData['name'] ?? '';
 $price = $inputData['price'] ?? '';
 $duration = $inputData['duration'] ?? '';

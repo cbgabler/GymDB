@@ -44,7 +44,7 @@ function displayEmployee(employee) {
                     <td contenteditable="false">${employeeItem.position}</td>
                     <td>
                         <button onclick="toggleEdit(this)">Edit</button>
-                        <button onclick="deleteemployee(${employeeItem.id})">Delete</button>
+                        <button onclick="deleteEmployee(${employeeItem.id})">Delete</button>
                     </td>
                 </tr>
             `;
@@ -73,13 +73,13 @@ function toggleEdit(button) {
             position: cells[3].innerText,
         };
         
-        updateemployee(updatedData);
+        updateEmployee(updatedData);
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
     }
 }
 
-async function updateemployee(employeeData) {
+async function updateEmployee(employeeData) {
     console.log(employeeData);
     try {
         const response = await fetch('../~gablerc/phpScripts/phpEmployee/updateEmployee.php', {
@@ -96,7 +96,7 @@ async function updateemployee(employeeData) {
     }
 }
 
-async function deleteemployee(employeeId) {
+async function deleteEmployee(employeeId) {
     if (isNaN(employeeId)) {
         console.error('Invalid employee ID');
         return;

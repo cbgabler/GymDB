@@ -6,7 +6,6 @@
     <title>Gym Management</title>
     <link rel="stylesheet" href="styles.css">
     <script src="/~gablerc/jsScripts/membership.js" defer></script>
-    <script src="/~gablerc/jsScripts/member.js" defer></script>
 </head>
 <body>
     <header>
@@ -14,6 +13,7 @@
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
+                <li><a href="members.html">Members</a></li>
                 <li><a href="employee.html">Employees</a></li>
                 <li><a href="class.html">Classes</a></li>
                 <li><a href="membership.html">Memberships</a></li>
@@ -28,16 +28,44 @@
         <div id="membership"></div>
     </section>
 
-
     <section>
-        <h2>Our Members</h2>
-        <div id="member"></div>
-    </section>
-
-    <h2>Interested in joining? Sign up below!</h2>
-    <section id="member_signup">
-        <p>Fill out your information to sign up!</p>
-        <iframe src="application_info.html" width="100%" height="400px"></iframe>
+        <h2>Create New Membership</h2>
+        <form action="/~gablerc/phpScripts/phpMembership/createMembership.php" method="POST">
+            <div>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            </div>
+            <div>
+                <label for="duration">Duration (months):</label>
+                <input type="text" id="duration" name="duration" required>
+            </div>
+            <div>
+                <label for="guest_passes">Guest Passes:</label>
+                <input type="number" id="guest_passes" name="guest_passes" min="0" value="0">
+            </div>
+            <div>
+                <label for="signup_fee">Sign Up Fee:</label>
+                <input type="number" id="signup_fee" name="signup_fee" step="0.01" min="0" value="0.00">
+            </div>
+            <div>
+                <label for="renewable">Renewable (Yes/No):</label>
+                <select id="renewable" name="renewable">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div>
+                <label for="class_id">Class ID:</label>
+                <input type="number" id="class_id" name="class_id">
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
     </section>
 </body>
 </html>

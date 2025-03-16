@@ -9,7 +9,6 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Reading JSON data from POST
 $inputData = json_decode(file_get_contents('php://input'), true);
 
 $class_id = $inputData['id'] ?? '';

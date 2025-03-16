@@ -1,13 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchClasses();
+
+    const employeeSelect = document.getElementById("employee_id");
+    const equipmentSelect = document.getElementById("equipment_id");
+
+    fetch('/~gablerc/phpScripts/phpEmployee/getEmployeesById.php')
+        .then(response => response.json())
+        .then(employees => {
+            employeeSelect.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select an employee';
+            employeeSelect.appendChild(defaultOption);
+            employees.forEach(employee => {
+                const option = document.createElement('option');
+                option.value = employee.id;
+                option.text = `ID: ${employee.id} - ${employee.name}`;
+                employeeSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching employees:', error));
+
+    fetch('/~gablerc/phpScripts/phpEquipment/getEquipmentById.php')
+        .then(response => response.json())
+        .then(equipment => {
+            equipmentSelect.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select an equipment';
+            equipmentSelect.appendChild(defaultOption);
+            equipment.forEach(equip => {
+                const option = document.createElement('option');
+                option.value = equip.id;
+                option.text = `ID: ${equip.id} - ${equip.name}`;
+                equipmentSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching equipment:', error));
+
+    const classForm = document.getElementById('classForm');
+    classForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(classForm);
+
+        fetch('/~gablerc/phpScripts/phpClass/createClass.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Class submitted successfully!');
+                window.location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting class:', error);
+            alert('Error submitting class.');
+        });
+    });
 });
 
 async function fetchClasses() {
     try {
         const response = await fetch('../~gablerc/phpScripts/phpClass/getClasses.php');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         console.log('Received data:', data);
         displayClasses(data);
@@ -118,7 +177,7 @@ async function deleteClass(classId) {
     if (!confirm('Are you sure you want to delete this class?')) return;
     
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpClass/removeClass.php', {
+        const response = await fetch('/~gablerc/phpScripts/phpClass/removeClass.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `id=${classId}`
