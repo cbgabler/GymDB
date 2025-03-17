@@ -2,13 +2,12 @@
 -- Variables are denoted using the `:paramName` syntax
 
 -- 1. Retrieve all gym members
-SELECT member_id, first_name, last_name, email, phone, membership_id 
-FROM members;
+SELECT id, name, email, phone, date_joined FROM members;
 
 -- 2. Retrieve a single member's details
-SELECT member_id, first_name, last_name, email, phone, membership_id 
+SELECT id, name, email, phone, date_joined 
 FROM members 
-WHERE member_id = :member_id;
+WHERE id = :id;
 
 -- 3. Add a new gym member
 INSERT INTO members (name, email, phone, date_joined) 
@@ -16,62 +15,61 @@ VALUES (:name, :email, :phone, :date_joined);
 
 -- 4. Update an existing gym member
 UPDATE members 
-SET first_name = :first_name, 
-    last_name = :last_name, 
+SET name = :name, 
     email = :email, 
-    phone = :phone, 
-    membership_id = :membership_id 
-WHERE member_id = :member_id;
+    phone = :phone
+WHERE id = :id;
 
 -- 5. Delete a gym member
-DELETE FROM members WHERE id = id;
+DELETE FROM members WHERE id = :id;
 
 -- 6. Retrieve all employees
-SELECT employee_id, first_name, last_name, role, email, phone 
-FROM employees;
+SELECT id, name, email, phone, position FROM employees;
 
 -- 7. Retrieve a single employee's details
-SELECT employee_id, first_name, last_name, role, email, phone 
+SELECT id, name, email, phone, position 
 FROM employees 
-WHERE employee_id = :employee_id;
+WHERE id = :id;
 
 -- 8. Add a new employee
-INSERT INTO employees (first_name, last_name, role, email, phone) 
-VALUES (:first_name, :last_name, :role, :email, :phone);
+INSERT INTO employees (name, email, phone, position) 
+VALUES (:name, :email, :phone, :position);
 
 -- 9. Update an existing employee
 UPDATE employees 
-SET first_name = :first_name, 
-    last_name = :last_name, 
-    role = :role, 
+SET name = :name, 
     email = :email, 
-    phone = :phone 
-WHERE employee_id = :employee_id;
+    phone = :phone,
+    position = :position
+WHERE id = :id;
 
 -- 10. Delete an employee
-DELETE FROM employees WHERE employee_id = :employee_id;
+DELETE FROM employees WHERE id = :id;
 
 -- 11. Retrieve all equipment
-SELECT equipment_id, name, type, status FROM equipment;
+SELECT id, name, description, quantity, price, purchase_date, seller, is_active, notes 
+FROM equipment;
 
 -- 12. Add new equipment
-INSERT INTO equipment (name, type, status) 
-VALUES (:name, :type, :status);
+INSERT INTO equipment (name, description, quantity, price, purchase_date, seller, is_active, notes) 
+VALUES (:name, :description, :quantity, :price, :purchase_date, :seller, :is_active, :notes);
 
 -- 13. Update equipment details
 UPDATE equipment 
 SET name = :name, 
-    type = :type, 
-    status = :status 
-WHERE equipment_id = :equipment_id;
+    description = :description, 
+    quantity = :quantity,
+    price = :price, 
+    purchase_date = :purchase_date,
+    seller = :seller, 
+    is_active = :is_active, 
+    notes = :notes 
+WHERE id = :id;
 
 -- 14. Delete equipment
-DELETE FROM equipment WHERE equipment_id = :equipment_id;
+DELETE FROM equipment WHERE id = :id;
 
--- Retreive classes
-SELECT class_name, duration, class_date, employee_id FROM classes;
--- 15. Retrieve all gym classes
--- Retrieve all gym classes with instructor names
+-- 15. Retrieve all gym classes with instructor names
 SELECT 
     c.id AS class_id, 
     c.class_name, 
@@ -81,67 +79,70 @@ SELECT
 FROM classes c
 LEFT JOIN employees e ON c.employee_id = e.id;
 
--- Retrieve gym classes for a specific date
+-- 16. Retrieve gym classes for a specific date
 SELECT c.id AS class_id, 
        c.class_name, 
-       e.name AS employee_name, 
+       e.name AS instructor_name, 
        c.class_date AS schedule, 
        c.capacity 
 FROM classes c
 LEFT JOIN employees e ON c.employee_id = e.id
-WHERE DATE(c.class_date) = ?
+WHERE DATE(c.class_date) = :class_date;
 
+-- 17. Add a new class
+INSERT INTO classes (class_name, description, duration, capacity, class_category, class_date, equipment_id, employee_id) 
+VALUES (:class_name, :description, :duration, :capacity, :class_category, :class_date, :equipment_id, :employee_id); 
 
--- 16. Add a new class
-INSERT INTO classes (class_name, description, duration, capactiy, class_category, class_date, equipment_id, employee_id) 
-VALUES (:class_name, :description, :duration, :capactiy, :class_category, :class_date, :equipment_id, :employee_id); 
-
--- 17. Update class details
+-- 18. Update class details
 UPDATE classes 
-SET name = :class_name, 
+SET class_name = :class_name, 
     description = :description,
     duration = :duration,
     capacity = :capacity,
-    class_category = class_category,
+    class_category = :class_category,
     class_date = :class_date,
     equipment_id = :equipment_id,
     employee_id = :employee_id
-WHERE class_id = :class_id;
+WHERE id = :class_id;
 
--- 18. Delete a class
-DELETE FROM classes WHERE id = :id;
+-- 19. Delete a class
+DELETE FROM classes WHERE id = :class_id;
 
--- 19. Retrieve all memberships
-SELECT membership_id, type, price, duration 
+-- 20. Retrieve all memberships
+SELECT id, name, price, duration, guest_passes, signup_fee, renewable, class_id 
 FROM memberships;
 
--- 20. Add a new membership
-INSERT INTO memberships (type, price, duration) 
-VALUES (:type, :price, :duration);
+-- 21. Add a new membership
+INSERT INTO memberships (name, price, duration, guest_passes, signup_fee, renewable, class_id) 
+VALUES (:name, :price, :duration, :guest_passes, :signup_fee, :renewable, :class_id);
 
--- 21. Update membership details
+-- 22. Update membership details
 UPDATE memberships 
-SET type = :type, 
+SET name = :name, 
     price = :price, 
-    duration = :duration 
-WHERE membership_id = :membership_id;
+    duration = :duration,
+    guest_passes = :guest_passes,
+    signup_fee = :signup_fee,
+    renewable = :renewable,
+    class_id = :class_id
+WHERE id = :id;
 
--- 22. Delete a membership
-DELETE FROM memberships WHERE membership_id = :membership_id;
+-- 23. Delete a membership
+DELETE FROM memberships WHERE id = :id;
 
--- 23. Retrieve all feedback from members
-SELECT feedback_id, member_id, comments, rating, submitted_at 
+-- 24. Retrieve all feedback from members
+SELECT id, member_id, feedback_content, feedback_date, rating 
 FROM feedback;
 
--- 24. Add new feedback
-INSERT INTO feedback (member_id, comments, rating, submitted_at) 
-VALUES (:member_id, :comments, :rating, NOW());
+-- 25. Add new feedback
+INSERT INTO feedback (member_id, feedback_content, rating, feedback_date) 
+VALUES (:member_id, :feedback_content, :rating, NOW());
 
--- 25. Update feedback details
+-- 26. Update feedback details
 UPDATE feedback 
-SET comments = :comments, 
+SET feedback_content = :feedback_content, 
     rating = :rating 
-WHERE feedback_id = :feedback_id;
+WHERE id = :id;
 
--- 26. Delete feedback
-DELETE FROM feedback WHERE feedback_id = :feedback_id;
+-- 27. Delete feedback
+DELETE FROM feedback WHERE id = :id;

@@ -114,7 +114,7 @@ async function deleteequipment(equipmentId) {
     if (!confirm('Are you sure you want to delete this equipment?')) return;
     
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpEquipment/removeEquipment.php', {
+        const response = await fetch('/~gablerc/phpScripts/phpEquipment/removeEquipment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `id=${equipmentId}`

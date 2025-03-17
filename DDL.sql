@@ -8,14 +8,16 @@ DROP TABLE IF EXISTS members;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS equipment;
 
+-- 1. Members table
 CREATE TABLE members (
     id INT AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(15) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE, -- Users should not sign up under the same email
+    phone VARCHAR(15) NOT NULL UNIQUE, -- Users should not sign up under the same phone
     date_joined DATE NOT NULL
 );
 
+-- 2. Employees table
 CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -24,11 +26,12 @@ CREATE TABLE employees (
     position VARCHAR(50) NOT NULL
 );
 
+-- 3. Equipment table
 CREATE TABLE equipment (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description TEXT,
-    quantity INT DEFAULT 1 CHECK (quantity > 0),
+    quantity INT DEFAULT 1 CHECK (quantity > 0), -- Quantity should be 1 or greater than 1
     price DECIMAL(10, 2),
     purchase_date DATE,
     seller VARCHAR(100),
@@ -36,6 +39,7 @@ CREATE TABLE equipment (
     notes TEXT
 );
 
+-- 4. Classes table
 CREATE TABLE classes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     class_name VARCHAR(100) NOT NULL,
@@ -50,6 +54,7 @@ CREATE TABLE classes (
     FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE SET NULL
 );
 
+-- 5. Memberships table
 CREATE TABLE memberships (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -62,6 +67,7 @@ CREATE TABLE memberships (
     FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE SET NULL
 );
 
+-- 6. Feedback table
 CREATE TABLE feedback (
     id INT AUTO_INCREMENT PRIMARY KEY,
     member_id INT NOT NULL,
@@ -71,6 +77,7 @@ CREATE TABLE feedback (
     FOREIGN KEY (member_id) REFERENCES members(id) ON DELETE CASCADE
 );
 
+-- Default test data
 INSERT INTO members (name, email, phone, date_joined) VALUES
 ('John Doe', 'johndoe@example.com', '555-1234', '2023-01-15'),
 ('Jane Smith', 'janesmith@example.com', '555-5678', '2023-03-22'),
@@ -102,7 +109,7 @@ INSERT INTO classes (class_name, description, duration, capacity, class_category
     (SELECT id FROM employees WHERE name = 'Tom Brown' LIMIT 1)),
 ('Yoga Basics', 'Beginner-friendly yoga poses', '50 min', 10, 'Wellness', '2024-03-03', 
     (SELECT id FROM equipment WHERE name = 'Yoga Mats' LIMIT 1), 
-    (SELECT id FROM employees WHERE name = 'Linda Green' LIMIT 1)),
+    NULL), -- No employee
 ('Spin Class', 'High-energy indoor cycling session', '45 min', 18, 'Fitness', '2024-03-04', 
     (SELECT id FROM equipment WHERE name = 'Stationary Bike' LIMIT 1), 
     (SELECT id FROM employees WHERE name = 'David White' LIMIT 1)),
