@@ -22,11 +22,40 @@
             </ul>
         </nav>
     </header>
+    
 
     <h2>Check Out Our Equipment Below!</h2>
 
     <section>
         <div id="equipment"></div>
+    </section>
+
+    <section>
+        <h3>Add New Equipment</h3>
+        <form action="/~gablerc/phpScripts/phpEquipment/createEquipment.php" method="POST">
+            <label for="name">Equipment Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description"></textarea><br><br>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required><br><br>
+
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required><br><br>
+
+            <label for="purchase_date">Purchase Date:</label>
+            <input type="date" id="purchase_date" name="purchase_date" required><br><br>
+
+            <label for="seller">Seller:</label>
+            <input type="text" id="seller" name="seller"><br><br>
+
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes"></textarea><br><br>
+
+            <input type="submit" value="Add Equipment">
+        </form>
     </section>
 </body>
 </html>

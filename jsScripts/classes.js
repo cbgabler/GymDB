@@ -128,9 +128,32 @@ function displayClasses(classes) {
 function toggleEdit(button) {
     const row = button.closest('tr');
     const cells = row.querySelectorAll('td[contenteditable]');
-    
+
     if (button.innerText === "Edit") {
         cells.forEach(cell => cell.contentEditable = "true");
+
+        // Add dropdowns for employee and equipment
+        const equipmentSelect = document.getElementById("equipment_id");
+        const employeeSelect = document.getElementById("employee_id");
+
+        const equipmentCell = cells[6];
+        const employeeCell = cells[7];
+
+        const equipmentId = equipmentCell.innerText;
+        const employeeId = employeeCell.innerText;
+
+        const equipmentOptions = Array.from(equipmentSelect.options);
+        const employeeOptions = Array.from(employeeSelect.options);
+
+        // Create select options with existing selected values
+        equipmentCell.innerHTML = `<select>${equipmentOptions.map(option => 
+            `<option value="${option.value}" ${option.value == equipmentId ? 'selected' : ''}>${option.text}</option>`
+        ).join('')}</select>`;
+
+        employeeCell.innerHTML = `<select>${employeeOptions.map(option => 
+            `<option value="${option.value}" ${option.value == employeeId ? 'selected' : ''}>${option.text}</option>`
+        ).join('')}</select>`;
+
         button.innerText = "Save";
     } else {
         const updatedData = {
@@ -141,10 +164,10 @@ function toggleEdit(button) {
             duration: cells[3].innerText,
             class_category: cells[4].innerText,
             class_date: cells[5].innerText,
-            equipment_id: cells[6].innerText,
-            employee_id: cells[7].innerText
+            equipment_id: cells[6].querySelector('select').value,
+            employee_id: cells[7].querySelector('select').value
         };
-        
+
         updateClass(updatedData);
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
@@ -159,7 +182,7 @@ async function updateClass(classData) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(classData)
         });
-        
+
         const result = await response.text();
         console.log('Update response:', result);
         fetchClasses();
@@ -175,14 +198,14 @@ async function deleteClass(classId) {
     }
 
     if (!confirm('Are you sure you want to delete this class?')) return;
-    
+
     try {
         const response = await fetch('/~gablerc/phpScripts/phpClass/removeClass.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `id=${classId}`
         });
-        
+
         const result = await response.text();
         console.log('Delete response:', result);
         fetchClasses();

@@ -7,7 +7,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Ensure the POST request is made
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("Invalid request method. Only POST is allowed.");
 }
@@ -18,7 +17,6 @@ if (!$id) {
     die("Error: No class ID provided.");
 }
 
-// Prepare the SQL statement to prevent SQL injection
 $stmt = $conn->prepare("DELETE FROM classes WHERE id = ?");
 $stmt->bind_param("i", $id);
 

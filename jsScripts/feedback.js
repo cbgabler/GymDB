@@ -60,24 +60,63 @@ function displayFeedback(feedback) {
 function toggleEdit(button) {
     const row = button.closest('tr');
     const cells = row.querySelectorAll('td[contenteditable]');
-    
+    const memberCell = cells[0];  // The cell with member_id
+
     if (button.innerText === "Edit") {
+        // Create a dropdown for member selection
+        const memberSelect = document.createElement('select');
+        memberSelect.id = "edit_member_id";
+        memberSelect.name = "member_id";
+
+        // Add a default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.text = 'Select a member';
+        memberSelect.appendChild(defaultOption);
+
+        // Fetch the members to populate the dropdown
+        fetch('/~gablerc/phpScripts/phpMember/getMembersById.php')
+            .then(response => response.json())
+            .then(members => {
+                members.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.text = `ID: ${member.id} - ${member.name}`;
+                    memberSelect.appendChild(option);
+                });
+
+                // Set the selected option based on the current member_id
+                memberSelect.value = memberCell.innerText;
+
+                // Replace the member cell with the dropdown
+                memberCell.innerHTML = '';
+                memberCell.appendChild(memberSelect);
+            })
+            .catch(error => {
+                console.error('Error fetching members for edit:', error);
+            });
+
+        // Make other fields editable
         cells.forEach(cell => cell.contentEditable = "true");
         button.innerText = "Save";
     } else {
+        // Save the updated data
         const updatedData = {
             id: row.getAttribute('data-id'),
-            member_id: cells[0].innerText,
+            member_id: row.querySelector('#edit_member_id').value,  // Get selected member ID
             feedback_content: cells[1].innerText,
             feedback_date: cells[2].innerText,
             rating: cells[3].innerText,
         };
-        
+
         updatefeedback(updatedData);
+        
+        // Set the cells back to non-editable
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
     }
 }
+
 
 async function updatefeedback(feedbackData) {
     console.log(feedbackData);

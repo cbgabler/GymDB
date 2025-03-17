@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('../config.php');
 
 $conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -13,15 +13,15 @@ $duration = $_POST['classDuration'] ?? '';
 $capacity = $_POST['classCapacity'] ?? '';
 $class_category = $_POST['classCategory'] ?? '';
 $class_date = $_POST['classDate'] ?? '';
-$equipment_id = $_POST['classEquipment'] ?? '';
-$employee_id = $_POST['classEmployee'] ?? '';
+$equipment_id = $_POST['equipment_id'] ?? '';
+$employee_id = $_POST['employee_id'] ?? '';
 
 $stmt = $conn->prepare("INSERT INTO classes 
     (class_name, description, duration, capacity, class_category, class_date, equipment_id, employee_id) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 $stmt->bind_param(
-    "ssisssii", 
+    "ssisssii",
     $class_name, 
     $description, 
     $duration, 
@@ -33,11 +33,10 @@ $stmt->bind_param(
 );
 
 if ($stmt->execute()) {
-    echo "New record created successfully";
+    echo json_encode(['success' => true]);
 } else {
-    echo "Error: " . $stmt->error;
+    echo json_encode(['success' => false, 'error' => $stmt->error]);
 }
 
 $stmt->close();
 $conn->close();
-?>
