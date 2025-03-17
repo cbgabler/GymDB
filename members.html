@@ -30,7 +30,19 @@
 
     <h2>Interested in joining? Sign up below!</h2>
     <section id="member_signup">
-        <p>Fill out your information to sign up!</p>
-        <iframe src="application_info.html" width="100%" height="400px"></iframe>
+        <form action="/~gablerc/phpScripts/phpMember/createMember.php" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+        
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"><br><br>
+        
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone"
+                   placeholder="XXX-XXX-XXXX"
+                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br><br>
+        
+            <input type="submit" value="Submit">
+        </form>
     </section>
 </body>

@@ -4,20 +4,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchFeedback() {
     try {
-        const response = await fetch('../~gablerc/phpScripts/phpFeedback/getFeedback.php');
-        if (!response.ok) {
+        const [feedbackResponse, membersResponse] = await Promise.all([
+            fetch('../~gablerc/phpScripts/phpFeedback/getFeedback.php'),
+            fetch('../~gablerc/phpScripts/phpMember/getMembersById.php')
+        ]);
+
+        if (!feedbackResponse.ok || !membersResponse.ok) {
             throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        console.log('Received data:', data);
-        displayFeedback(data);
+
+        const feedbackData = await feedbackResponse.json();
+        const membersData = await membersResponse.json();
+
+        console.log('Received feedback:', feedbackData);
+        console.log('Received members:', membersData);
+
+        const memberLookup = {};
+        membersData.forEach(member => {
+            memberLookup[member.id] = member.name;
+        });
+
+        displayFeedback(feedbackData, memberLookup);
     } catch (error) {
-        console.error('Error fetching feedback:', error);
+        console.error('Error fetching feedback or members:', error);
         document.getElementById('feedback').innerHTML = `<p>Error: ${error.message}</p>`;
     }
 }
 
-function displayFeedback(feedback) {
+function displayFeedback(feedback, memberLookup) {
     const feedbackList = document.getElementById('feedback');
     feedbackList.innerHTML = '';
 
@@ -26,24 +40,27 @@ function displayFeedback(feedback) {
             <table border="1">
                 <thead>
                     <tr>
-                        <th>Member ID</th>
+                        <th>Member Name</th>
                         <th>Feedback</th>
                         <th>Date</th>
                         <th>Rating</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
         `;
 
         feedback.forEach(feedbackItem => {
+            const memberName = memberLookup[feedbackItem.member_id] || 'Unknown';
+
             tableHTML += `
                 <tr data-id="${feedbackItem.id}">
-                    <td contenteditable="false">${feedbackItem.member_id}</td>
+                    <td contenteditable="false">${memberName}</td>
                     <td contenteditable="false">${feedbackItem.feedback_content}</td>
                     <td contenteditable="false">${feedbackItem.feedback_date}</td>
                     <td contenteditable="false">${feedbackItem.rating}</td>
                     <td>
-                        <button onclick="toggleEdit(this)">Edit</button>
+                        <button onclick="toggleEdit(this, '${feedbackItem.member_id}')">Edit</button>
                         <button onclick="deletefeedback(${feedbackItem.id})">Delete</button>
                     </td>
                 </tr>
@@ -60,21 +77,18 @@ function displayFeedback(feedback) {
 function toggleEdit(button) {
     const row = button.closest('tr');
     const cells = row.querySelectorAll('td[contenteditable]');
-    const memberCell = cells[0];  // The cell with member_id
+    const memberCell = cells[0];
 
     if (button.innerText === "Edit") {
-        // Create a dropdown for member selection
         const memberSelect = document.createElement('select');
         memberSelect.id = "edit_member_id";
         memberSelect.name = "member_id";
 
-        // Add a default option
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.text = 'Select a member';
         memberSelect.appendChild(defaultOption);
 
-        // Fetch the members to populate the dropdown
         fetch('/~gablerc/phpScripts/phpMember/getMembersById.php')
             .then(response => response.json())
             .then(members => {
@@ -85,10 +99,8 @@ function toggleEdit(button) {
                     memberSelect.appendChild(option);
                 });
 
-                // Set the selected option based on the current member_id
                 memberSelect.value = memberCell.innerText;
 
-                // Replace the member cell with the dropdown
                 memberCell.innerHTML = '';
                 memberCell.appendChild(memberSelect);
             })
@@ -96,11 +108,9 @@ function toggleEdit(button) {
                 console.error('Error fetching members for edit:', error);
             });
 
-        // Make other fields editable
         cells.forEach(cell => cell.contentEditable = "true");
         button.innerText = "Save";
     } else {
-        // Save the updated data
         const updatedData = {
             id: row.getAttribute('data-id'),
             member_id: row.querySelector('#edit_member_id').value,  // Get selected member ID
@@ -111,7 +121,6 @@ function toggleEdit(button) {
 
         updatefeedback(updatedData);
         
-        // Set the cells back to non-editable
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
     }
