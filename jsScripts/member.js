@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchMember();
+    
+    const memberSignup = document.getElementById('member_signup');
+    memberSignup.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(memberSignup);
+
+        fetch('/~gablerc/phpScripts/phpMember/createMember.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        
+        alert('Member submitted successfully!');
+        window.location.reload();
+    });
 });
 
 async function fetchMember() {

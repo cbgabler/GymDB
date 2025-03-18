@@ -62,7 +62,6 @@ CREATE TABLE memberships (
     duration VARCHAR(20) NOT NULL,
     guest_passes INT DEFAULT 0 CHECK (guest_passes >= 0),
     signup_fee DECIMAL(10, 2) DEFAULT 0.00 CHECK (signup_fee >= 0),
-    renewable BOOLEAN DEFAULT TRUE,
     class_id INT,
     FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE SET NULL
 );

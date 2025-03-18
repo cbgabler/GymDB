@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$sql = "SELECT id, name, price, duration, guest_passes, signup_fee FROM memberships";
+$sql = "SELECT id, name, price, duration, guest_passes, signup_fee, class_id FROM memberships";
 $result = $conn->query($sql);
 
 $classes = [];

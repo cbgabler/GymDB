@@ -132,7 +132,6 @@ function toggleEdit(button) {
     if (button.innerText === "Edit") {
         cells.forEach(cell => cell.contentEditable = "true");
 
-        // Add dropdowns for employee and equipment
         const equipmentSelect = document.getElementById("equipment_id");
         const employeeSelect = document.getElementById("employee_id");
 

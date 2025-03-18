@@ -28,19 +28,21 @@
         <div id="member"></div>
     </section>
 
-    <h2>Interested in joining? Sign up below!</h2>
-    <section id="member_signup">
-        <form action="/~gablerc/phpScripts/phpMember/createMember.php" method="post">
+    <section>
+        <h2>Interested in joining? Sign up below!</h2>
+        <form id="member_signup">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name"><br><br>
+            <input type="text" id="name" name="name" required><br><br>
         
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email"><br><br>
-        
+            <input type="email" id="email" name="email"
+                placeholder="example@example.com"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br><br>
+                
             <label for="phone">Phone:</label>
             <input type="text" id="phone" name="phone"
                    placeholder="XXX-XXX-XXXX"
-                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br><br>
+                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br><br>
         
             <input type="submit" value="Submit">
         </form>

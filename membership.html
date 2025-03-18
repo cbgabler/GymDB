@@ -30,7 +30,7 @@
 
     <section>
         <h2>Create New Membership</h2>
-        <form action="/~gablerc/phpScripts/phpMembership/createMembership.php" method="POST">
+        <form id="membershipForm">
             <div>
                 <label for="name">Full Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -53,15 +53,17 @@
             </div>
             <div>
                 <label for="renewable">Renewable (Yes/No):</label>
-                <select id="renewable" name="renewable">
+                <select id="renewable" name="renewable" required>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
             </div>
             <div>
-                <label for="class_id">Class ID:</label>
-                <input type="number" id="class_id" name="class_id">
-            </div>
+                <label for="class_id">Class:</label>
+                <select id="class_id" name="class_id" required>
+                    <option value="">Select a class</option>
+                </select>
+            </div>            
             <div>
                 <input type="submit" value="Submit">
             </div>

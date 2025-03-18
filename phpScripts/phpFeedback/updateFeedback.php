@@ -9,13 +9,12 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Reading JSON data from POST
 $inputData = json_decode(file_get_contents('php://input'), true);
 
-$feedback_id = $inputData['id'] ?? '';  // Assuming `id` is provided to identify the record
+$feedback_id = $inputData['id'] ?? '';
 $member_id = $inputData['member_id'] ?? '';
 $feedback_content = $inputData['feedback_content'] ?? '';
-$date = date('Y-m-d');  // Auto-update the date
+$date = date('Y-m-d'); 
 $rating = $inputData['rating'] ?? '';
 
 if (empty($feedback_id)) {
@@ -23,7 +22,6 @@ if (empty($feedback_id)) {
     exit;
 }
 
-// Prepare update fields
 $fields = [];
 $params = [];
 $types = '';
@@ -32,12 +30,10 @@ if (!empty($member_id)) { $fields[] = 'member_id = ?'; $params[] = $member_id; $
 if (!empty($feedback_content)) { $fields[] = 'feedback_content = ?'; $params[] = $feedback_content; $types .= 's'; }
 if (!empty($rating)) { $fields[] = 'rating = ?'; $params[] = $rating; $types .= 'i'; }
 
-// Always update the date
 $fields[] = 'feedback_date = ?';
 $params[] = $date;
 $types .= 's';
 
-// Ensure there are fields to update
 if (empty($fields)) {
     echo json_encode(["success" => false, "message" => "No fields provided for update."]);
     exit;

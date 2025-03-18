@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchEmployee();
+    
+    const memberSignup = document.getElementById('employee_signup');
+    memberSignup.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(memberSignup);
+
+        fetch('/~gablerc/phpScripts/phpEmployee/createEmployee.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        
+        alert('Employee submitted successfully!');
+        window.location.reload();
+    });
 });
 
 async function fetchEmployee() {

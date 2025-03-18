@@ -61,7 +61,7 @@ function displayFeedback(feedback, memberLookup) {
                     <td contenteditable="false">${feedbackItem.rating}</td>
                     <td>
                         <button onclick="toggleEdit(this, '${feedbackItem.member_id}')">Edit</button>
-                        <button onclick="deletefeedback(${feedbackItem.id})">Delete</button>
+                        <button onclick="deleteFeedback(${feedbackItem.id})">Delete</button>
                     </td>
                 </tr>
             `;
@@ -113,13 +113,13 @@ function toggleEdit(button) {
     } else {
         const updatedData = {
             id: row.getAttribute('data-id'),
-            member_id: row.querySelector('#edit_member_id').value,  // Get selected member ID
+            member_id: row.querySelector('#edit_member_id').value,
             feedback_content: cells[1].innerText,
             feedback_date: cells[2].innerText,
             rating: cells[3].innerText,
         };
 
-        updatefeedback(updatedData);
+        updateFeedback(updatedData);
         
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
@@ -127,7 +127,7 @@ function toggleEdit(button) {
 }
 
 
-async function updatefeedback(feedbackData) {
+async function updateFeedback(feedbackData) {
     console.log(feedbackData);
     try {
         const response = await fetch('../~gablerc/phpScripts/phpFeedback/updateFeedback.php', {
@@ -144,7 +144,7 @@ async function updatefeedback(feedbackData) {
     }
 }
 
-async function deletefeedback(feedbackId) {
+async function deleteFeedback(feedbackId) {
     if (isNaN(feedbackId)) {
         console.error('Invalid feedback ID');
         return;

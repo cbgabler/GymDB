@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchEquipment();
+    
+    const memberSignup = document.getElementById('equipment_signup');
+    memberSignup.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(memberSignup);
+
+        fetch('/~gablerc/phpScripts/phpEquipment/createEquipment.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        
+        alert('Equipment submitted successfully!');
+        window.location.reload();
+    });
 });
 
 async function fetchEquipment() {
