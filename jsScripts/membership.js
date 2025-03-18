@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         const formData = new FormData(membershipForm);
+        const classId = formData.get('class_id') || document.getElementById('class_id').dataset.previousValue || ''; 
+        formData.set('class_id', classId); // Previous value for classID
 
         fetch('/~gablerc/phpScripts/phpMembership/createMembership.php', {
             method: 'POST',
@@ -72,8 +74,8 @@ function displayMembership(membership, classLookup) {
             const classDisplay = classLookup[membershipItem.class_id] || 'None';  // Show 'None' if class is undefined
 
             tableHTML += `
-                <tr data-id="${membershipItem.id}">
-                <td contenteditable="false">${membershipItem.name}</td>
+                <tr data-id="${membershipItem.id}" data-class-id="${membershipItem.class_id}">
+                    <td contenteditable="false">${membershipItem.name}</td>
                     <td contenteditable="false">${membershipItem.price}</td>
                     <td contenteditable="false">${membershipItem.duration}</td>
                     <td contenteditable="false">${membershipItem.guest_passes}</td>
@@ -98,10 +100,9 @@ function toggleEdit(button, membershipId) {
     const row = button.closest('tr');
     const cells = row.querySelectorAll('td[contenteditable]');
     const classCell = cells[5]; 
-    let originalClassId = classCell.getAttribute('data-original-class-id');
+    let originalClassId = row.getAttribute('data-class-id');
 
     if (button.innerText === "Edit") {
-        originalClassId = row.getAttribute('data-class-id');
         classCell.setAttribute('data-original-class-id', originalClassId);
 
         const classSelect = document.createElement('select');
@@ -123,8 +124,7 @@ function toggleEdit(button, membershipId) {
                     classSelect.appendChild(option);
                 });
 
-                classSelect.value = originalClassId;
-
+                classSelect.value = originalClassId || ''; // Default to old class_id if exists
                 classCell.innerHTML = '';
                 classCell.appendChild(classSelect);
             })
@@ -135,6 +135,8 @@ function toggleEdit(button, membershipId) {
         cells.forEach(cell => cell.contentEditable = "true");
         button.innerText = "Save";
     } else {
+        const selectedClassId = row.querySelector('#edit_class_id').value || originalClassId; // Use original if none selected
+
         const updatedData = {
             id: membershipId,
             name: cells[0].innerText,
@@ -142,15 +144,15 @@ function toggleEdit(button, membershipId) {
             duration: cells[2].innerText,
             guest_passes: cells[3].innerText,
             signup_fee: cells[4].innerText,
-            class_id: row.querySelector('#edit_class_id').value || originalClassId // Use original class ID if none selected
+            class_id: selectedClassId
         };
 
         updatemembership(updatedData);
-
         cells.forEach(cell => cell.contentEditable = "false");
         button.innerText = "Edit";
     }
 }
+
 
 async function updatemembership(membershipData) {
     console.log(membershipData);
